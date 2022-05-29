@@ -1,0 +1,22 @@
+.App {
+  background-color: #f0efeb;
+  min-height: 100vh;
+  color: #f0efeb;
+
+  .content {
+    display: flex;
+    justify-content: space-around;
+    height: 70vh;
+    margin: 40px 80px;
+  }
+}
+
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}

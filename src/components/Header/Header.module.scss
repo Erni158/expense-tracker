@@ -1,0 +1,10 @@
+@use '../../colors';
+
+.root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  background-color: colors.$gray-primary;
+  box-shadow: 0 2px 2px 1px colors.$gray-secondary;
+}
