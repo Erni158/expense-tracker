@@ -3,10 +3,10 @@ const env = require("./environment/env");
 
 mongoose.Promise = global.Promise;
 
-const mongoUri = `mongodb://${env.dbName}:${env.key}@${env.dbName}.mongo.cosmos.azure.com:${env.port}/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@${env.dbName}@`
+const mongoUri = `mongodb://${env.hostName}:${env.key}@${env.hostName}.mongo.cosmos.azure.com:${env.port}/${env.dbName}?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@${env.dbName}@`
 
 function connect() {
-  return mongoose.connect(mongoUri, { auth: { username: env.dbName, password: env.key, dbName: 'expense-tracker-db'}});
+  return mongoose.connect(mongoUri, { auth: { username: env.dbName, password: env.key }});
 }
 
 module.exports = {
