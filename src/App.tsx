@@ -8,13 +8,15 @@ import Menu from './components/Menu/Menu';
 import Content from './components/Content/Content';
 import Dashboard from './components/Dashboard/Dashboard';
 import Bills from './components/Bills/Bills';
+import { apiClient } from './utils/apiClient';
+import { ApiMethods } from './types';
 
 const App = () => {
   let location = useLocation();
 
   useEffect(() => {
     const fetchApi = async () => {
-      fetch("http://localhost:3001/api").then((res) => res.json()).then((data) => console.log(data))
+      apiClient("http://localhost:3000/api/bills", ApiMethods.GET).then((data) => console.log(data))
     }
 
     fetchApi();
