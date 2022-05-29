@@ -1,7 +1,9 @@
+@use "./colors.scss";
+
 .App {
-  background-color: #f0efeb;
+  background-color: colors.$light-yellow;
   min-height: 100vh;
-  color: #f0efeb;
+  color: colors.$light-yellow;
 
   .content {
     display: flex;

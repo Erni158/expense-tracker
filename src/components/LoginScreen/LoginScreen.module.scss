@@ -1,0 +1,35 @@
+@use '../../colors';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  min-width: 450px;
+  height: 100%;
+  background-color: colors.$gray-primary;
+  box-shadow: 0px 0px 3px 2px colors.$gray-secondary;
+  border-radius: 10px;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+
+    .login {
+      background-color: colors.$light-yellow;
+      margin: 40px;
+      padding: 25px;
+      border-radius: 10px;
+    }
+    
+    .button {
+      background-color: colors.$light-yellow;
+      margin: 0 auto;
+      color: black;
+  
+      &:hover {
+        background-color: colors.$dark-yellow;
+      }
+    }
+  }
+}

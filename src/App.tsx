@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Bills from './components/Bills/Bills';
 import { apiClient } from './utils/apiClient';
 import { ApiMethods } from './types';
+import LoginScreen from './components/LoginScreen/LoginScreen';
 
 const App = () => {
   let location = useLocation();
@@ -26,13 +27,11 @@ const App = () => {
       <div className="App">
         <Header />
         <div className="content">
-          <Menu />
-          <Content>
-            <Routes>
-              <Route path='/' element={<Dashboard />} />
-              <Route path='/bills' element={<Bills />} />
-            </Routes>
-          </Content>
+        <Routes>
+          <Route index element={<LoginScreen />} /> 
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/bills' element={<Bills />} /> 
+        </Routes>
         </div>
       </div>
   );
