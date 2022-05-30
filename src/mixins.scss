@@ -1,0 +1,14 @@
+@use './colors';
+
+@mixin centerColumnFlex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin uiBox {
+  @include centerColumnFlex;
+  background-color: colors.$gray-primary;
+  box-shadow: 0px 0px 3px 2px colors.$gray-secondary;
+  border-radius: 10px;
+}
