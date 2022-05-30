@@ -1,8 +1,8 @@
 import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Routes, Route, useLocation } from "react-router-dom";
-import React, { useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import Header from "./components/Header/Header";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -19,22 +19,24 @@ import Register from "./components/Register/Register";
 
 const App = () => {
   const { setIsAuthenticated } = useAuthContext();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const checkTokenValidation = async () => {
       if (localStorage.getItem("loginToken")) {
-        apiClient(
-          `http://localhost:3000${API_TOKEN_CHECK}`,
-          ApiMethods.GET
-        ).catch(() => {
-          toast.error("Token expired");
-        });
+        apiClient(`http://localhost:3000${API_TOKEN_CHECK}`, ApiMethods.GET)
+          .then(() => navigate("/dashboard"))
+          .catch(() => {
+            toast.error("Token expired");
+          });
       } else {
         setIsAuthenticated(false);
       }
     };
 
     checkTokenValidation();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setIsAuthenticated]);
 
   return (
     <div className="App">

@@ -8,6 +8,14 @@
   background-color: colors.$gray-primary;
   box-shadow: 0 2px 2px 1px colors.$gray-secondary;
 
+  .info {
+    display: flex;
+
+    h2 {
+      margin: 0 30px;
+    }
+  }
+
   .button {
     background-color: colors.$light-yellow;
     margin: 0 auto;

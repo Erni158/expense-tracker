@@ -5,13 +5,13 @@
   @include mixins.uiBox;
   width: 40%;
   min-width: 450px;
-  height: 70%;
+  height: 85%;
 
   .form {
     display: flex;
     flex-direction: column;
 
-    .login {
+    .register {
       background-color: colors.$light-yellow;
       margin: 20px 40px 40px;
       padding: 25px;
