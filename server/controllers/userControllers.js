@@ -48,8 +48,17 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+const profile = asyncHandler(async (req, res) => {
+  if (req.user) {
+    res.send(req.user);
+  } 
+  else {
+   return res.status(401).json({ message: 'Invalid token' });
+  }
+});
+
 const tokenCheck = asyncHandler(async (req, res) => {
   res.status(200).send({ status: "OK" });
 })
 
-module.exports = { registerUser, authUser, tokenCheck }
+module.exports = { registerUser, authUser, tokenCheck, profile }
