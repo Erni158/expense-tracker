@@ -7,7 +7,7 @@ const Menu = () => {
     <nav className={styles.root}>
       <ul className={styles.list}>
         <li className={styles.listItem}>
-          <Link to='/'>Dashboard</Link>
+          <Link to='/dashboard'>Dashboard</Link>
         </li>
         <li className={styles.listItem}>
           <Link to='/bills'>Bills</Link>

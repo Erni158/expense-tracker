@@ -4,23 +4,23 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import React, { useEffect } from 'react';
 
 import Header from './components/Header/Header';
-import Menu from './components/Menu/Menu';
-import Content from './components/Content/Content';
 import Dashboard from './components/Dashboard/Dashboard';
 import Bills from './components/Bills/Bills';
 import { apiClient } from './utils/apiClient';
 import { ApiMethods } from './types';
 import LoginScreen from './components/LoginScreen/LoginScreen';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import { API_TOKEN_CHECK } from './apiRoutes';
 
 const App = () => {
-  let location = useLocation();
-
   useEffect(() => {
-    const fetchApi = async () => {
-      apiClient("http://localhost:3000/api/bills", ApiMethods.GET).then((data) => console.log(data))
+    const checkTokenValidation = async () => {
+      if (localStorage.getItem("loginToken")) {
+        apiClient(`http://localhost:3000${API_TOKEN_CHECK}`, ApiMethods.GET).then((data) => console.log(data))
+      }
     }
 
-    fetchApi();
+    checkTokenValidation();
   }, [])
 
   return (
@@ -28,9 +28,19 @@ const App = () => {
         <Header />
         <div className="content">
         <Routes>
-          <Route index element={<LoginScreen />} /> 
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/bills' element={<Bills />} /> 
+          <Route index element={<LoginScreen />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+                <Dashboard /> 
+            </ProtectedRoute>
+            } 
+          />
+          <Route path="/bills" element={
+            <ProtectedRoute>
+                <Bills /> 
+            </ProtectedRoute>
+            } 
+          />
         </Routes>
         </div>
       </div>

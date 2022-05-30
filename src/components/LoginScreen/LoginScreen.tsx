@@ -1,6 +1,5 @@
 import styles from "./LoginScreen.module.scss";
 
-import React from 'react'
 import * as yup from "yup";
 import { Button, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -8,6 +7,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { apiClient } from "../../utils/apiClient";
 import { API_LOGIN } from "../../apiRoutes";
 import { ApiMethods, User } from "../../types";
+import { useAuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface LoginFormFields {
   email: string;
@@ -27,6 +28,8 @@ const LoginScreen = () => {
     reValidateMode: "onSubmit",
     resolver: yupResolver(schema)
   });
+  const { setIsAuthenticated } = useAuthContext();
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<LoginFormFields> = (data) => {
     apiClient<User>(`http://localhost:3000${API_LOGIN}`, ApiMethods.POST, {
@@ -34,7 +37,9 @@ const LoginScreen = () => {
     })
     .then((result) => {
       if (result) {
-        localStorage.setItem("loginToken", result.token)
+        localStorage.setItem("loginToken", result.token);
+        setIsAuthenticated(true);
+        navigate('/dashboard');
       }
     })
   }
