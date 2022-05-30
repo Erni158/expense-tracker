@@ -22,7 +22,7 @@ const ProtectedRoute: FC<Props> = ({ children }) => {
       </>
     )
   } else {
-    return <Navigate to="/login" replace state={{ from: location }} />
+    return <Navigate to="/" replace state={{ from: location }} />
   }
 }
 

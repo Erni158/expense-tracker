@@ -1,32 +1,51 @@
 import { ApiMethods } from "../types";
 
 export const apiClient = async <T>(url: string, method: ApiMethods, data = {}): Promise<T> => {
+  const token = localStorage.getItem("loginToken");
 
   if (method === ApiMethods.GET) {
-    return fetch(url).then(async response => {
+    const config = {
+      method: ApiMethods.GET,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    }
+    return fetch(url, config).then(async response => {
       if (response.status === 401) return Promise.reject({ message: 'Error' });
       if (response.status === 201) return null;
-    
+
       const data = await response.json();
     
-      if (response.ok) return data;
+      if (response.ok) {
+        return data;
+      } else {
+        return Promise.reject(data);
+      }
     })
   }
 
   if (method === ApiMethods.POST) {
-    return fetch(url, {
-      method: method || "GET",
+    const config = {
+      method: method || ApiMethods.GET,
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(data),
-    }).then(async response => {
+    }
+    return fetch(url, config).then(async response => {
       if (response.status === 401) return Promise.reject({ message: 'Error' });
       if (response.status === 201) return null;
-    
+
       const data = await response.json();
     
-      if (response.ok) return data;
+      if (response.ok) {
+        return data;
+      } else {
+        return Promise.reject(data);
+      }
+         
     })
   }
 

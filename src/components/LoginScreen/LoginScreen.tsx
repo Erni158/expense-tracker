@@ -1,48 +1,67 @@
 import styles from "./LoginScreen.module.scss";
 
 import * as yup from "yup";
-import { Button, TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import { apiClient } from "../../utils/apiClient";
 import { API_LOGIN } from "../../apiRoutes";
 import { ApiMethods, User } from "../../types";
 import { useAuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 interface LoginFormFields {
   email: string;
   password: string;
 }
 
-const schema = yup.object({
-  email: yup.string().email().required("Please enter your email"),
-  password: yup
-    .string()
-    .required("Please enter your password")
-    .min(7, "Password is too short - should be 8 chars minimum.")
-}).required();
+const schema = yup
+  .object({
+    email: yup.string().email().required("Please enter your email"),
+    password: yup
+      .string()
+      .required("Please enter your password")
+      .min(7, "Password is too short - should be 8 chars minimum."),
+  })
+  .required();
 
 const LoginScreen = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormFields>({
+  const [loading, setLoading] = useState(false);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<LoginFormFields>({
     reValidateMode: "onSubmit",
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
   const { setIsAuthenticated } = useAuthContext();
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<LoginFormFields> = (data) => {
+    setLoading(true);
     apiClient<User>(`http://localhost:3000${API_LOGIN}`, ApiMethods.POST, {
-      ...data
+      ...data,
     })
-    .then((result) => {
-      if (result) {
-        localStorage.setItem("loginToken", result.token);
-        setIsAuthenticated(true);
-        navigate('/dashboard');
-      }
-    })
-  }
+      .then((result) => {
+        if (result) {
+          toast.success("You're logged in!");
+          setLoading(false);
+          localStorage.setItem("loginToken", result.token);
+          setIsAuthenticated(true);
+          navigate("/dashboard");
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        setError("email", { message: error.message });
+        toast.error(error.message);
+      });
+  };
   return (
     <div className={styles.root}>
       <h2>Login</h2>
@@ -82,16 +101,17 @@ const LoginScreen = () => {
             )}
           />
         </div>
-        <Button
+        <LoadingButton
           className={styles.button}
           variant="contained"
           type="submit"
         >
           Login
-        </Button>
+        </LoadingButton>
+        {loading && <CircularProgress className={styles.progress} />}
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default LoginScreen
+export default LoginScreen;
