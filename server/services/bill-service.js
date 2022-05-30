@@ -1,4 +1,3 @@
-const uuid = require("uuid");
 const Bill = require("../models/bill.model");
 const ReadPreference = require("mongodb").ReadPreference;
 
@@ -18,7 +17,6 @@ function getBills(req, res) {
 
 async function postBill(req, res) {
   const bill = new Bill({
-    id: uuid.v1(),
     name: req.body.name,
     category: req.body.category,
     cost: req.body.cost
