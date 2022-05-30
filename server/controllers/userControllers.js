@@ -48,4 +48,8 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser }
+const tokenCheck = asyncHandler(async (req, res) => {
+  res.status(200).send({ status: "OK" });
+})
+
+module.exports = { registerUser, authUser, tokenCheck }
