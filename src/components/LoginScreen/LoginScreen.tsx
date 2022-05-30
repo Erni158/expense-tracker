@@ -108,7 +108,17 @@ const LoginScreen = () => {
         >
           Login
         </LoadingButton>
-        {loading && <CircularProgress className={styles.progress} />}
+        {loading && (
+          <CircularProgress
+            className={styles.progress}
+            color="success"
+            size={50}
+            thickness={4.5}
+            sx={{
+              color: "#fff"
+            }}
+          />
+        )}
       </form>
     </div>
   );

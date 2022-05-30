@@ -5,24 +5,23 @@
   @include mixins.uiBox;
   width: 40%;
   min-width: 450px;
-  height: 70%;
 
   .form {
     display: flex;
     flex-direction: column;
 
     .login {
-      background-color: colors.$light-yellow;
+      background-color: colors.$white;
       margin: 20px 40px 40px;
       padding: 25px;
       border-radius: 10px;
     }
-    
+
     .button {
       background-color: colors.$light-yellow;
       margin: 0 auto;
       color: black;
-  
+
       &:hover {
         background-color: colors.$dark-yellow;
       }
